@@ -5,6 +5,7 @@ from itertools import count, islice
 from enum import Enum
 
 class Repple_BreakException(Exception): pass
+class Repple_ContinueException(Exception): pass
 
 class KeyMap:
     Integers = 1
@@ -25,20 +26,25 @@ class Repple:
         if keymap == KeyMap.Integers:
             keymap = count(start=1)
         mapped_keys = list(islice(keymap, len(items)))
+        print(keymap)
+        print(mapped_keys)
         items_map = {}
         for i,v in enumerate(items):
             items_map[str(mapped_keys[i])] = v
 
         while True:
-            for k,v in items_map.items():
-                print(f"\t{k}: {v}")
-            line = input(select_str)
-            args = line.split()
-            ret = []
-            for a in args:
-                if not a in items_map:
-                    continue
-                ret.append(items_map[a])
+            try:
+                for k,v in items_map.items():
+                    print(f"\t{k}: {v}")
+                line = input(select_str)
+                args = line.split()
+                ret = []
+                for a in args:
+                    if not a in items_map:
+                        raise Repple_ContinueException
+                    ret.append(items_map[a])
+            except Repple_ContinueException:
+                continue
             return ret
 
     def __init__(self):
