@@ -24,3 +24,20 @@ Command: A 1
 Command: b 1 2
 2 3
 ```
+
+## Selector
+```python
+from repple import Repple
+r = Repple()
+r['a'] = lambda: print(Repple.selector(['a','b','c']))
+r.main()
+
+```
+```
+Command: a
+        1: a
+        2: b
+        3: c
+Select your items: 1 3
+['a', 'c']
+```

@@ -1,46 +1,10 @@
 import inspect
 import sys
 import ast
-from itertools import count, islice
-from enum import Enum
 
 class Repple_BreakException(Exception): pass
 
-class KeyMap:
-    Integers = 1
-    QwertyWithCaps = ("1234567890qwertyuiopasdfghjklzxcvbnm"
-         "!@#$%^&*()QWERTYUIOPASDFGHJKLZXCVBNM")
-
 class Repple:
-    @staticmethod
-    def selector(items : list,
-        keymap = KeyMap.Integers,
-        select_str = "Select your items: ",
-        validator = None):
-
-        if keymap != KeyMap.Integers and (len(items) > len(keymap)):
-            print(f"--Number of items exceeds keymap length, "
-                  f"fallback to integers")
-            keymap = KeyMap.Integers
-        if keymap == KeyMap.Integers:
-            keymap = count(start=1)
-        mapped_keys = list(islice(keymap, len(items)))
-        items_map = {}
-        for i,v in enumerate(items):
-            items_map[str(mapped_keys[i])] = v
-
-        while True:
-            for k,v in items_map.items():
-                print(f"\t{k}: {v}")
-            line = input(select_str)
-            args = line.split()
-            ret = []
-            for a in args:
-                if not a in items_map:
-                    continue
-                ret.append(items_map[a])
-            return ret
-
     def __init__(self):
         self.command_map = {}
         self['q'] = (lambda: exec('raise Repple_BreakException'),
