@@ -16,10 +16,11 @@ r.main()
 ```
 ```
 Command: h
-        q       Exits the program
-        h       Show this help
-        a       Adds one to first argument and prints it
-        A
+        q               Exits the program
+        h               Show this help
+        a <x>           Adds one to first argument and prints it
+        A <x>
+        b <args>
 Command: a 1
 2
 Command: A 1

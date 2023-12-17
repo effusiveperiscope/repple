@@ -81,6 +81,7 @@ class Repple:
         self.command_map[index] = {
             "func": func,
             "nullary": fn_param_count == 0,
+            "params": [p for p in signature.parameters],
             "param_count": fn_param_count,
             "min_params": min_params,
             "variadic": variadic_positional,
@@ -97,7 +98,8 @@ class Repple:
 
     def default_help(self):
         for k,v in self.command_map.items():
-            print(f'\t{k}\t{v["desc"]}')
+            paramstring = ' '.join([f'<{param}>' for param in v['params']])
+            print(f'\t{k} {paramstring}\t\t{v["desc"]}')
 
     def remove(self, index : str):
         self.command_map.remove(index)

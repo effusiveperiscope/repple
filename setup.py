@@ -1,7 +1,7 @@
 from setuptools import setup
 setup(
     name='repple',
-    version='0.3.0',
+    version='0.3.1',
     py_modules=['repple'],
     description='Quick and dirty fdisk-like REPLs'
 )
