@@ -110,7 +110,7 @@ class Repple:
     def default_help(self):
         for k,v in self.command_map.items():
             paramstring = ' '.join([f'<{param}>' for param in v['params']])
-            print(f'\t{k} {paramstring}\t\t{v["desc"]}')
+            print(f'\t{k+" "+paramstring:<20} {v["desc"]:>5}')
 
     def remove(self, index : str):
         self.command_map.remove(index)
