@@ -15,11 +15,17 @@ class KeyMap:
 
 class Repple:
     @staticmethod
-    def selector(items : list,
+    def selector(items, # Accepts either a list or a dict. Dict keys are labels
         keymap = KeyMap.Integers,
         select_str = "Select your items: ",
         validator = None,
         is_unary = False):
+        
+        labels = None
+
+        if type(items) == dict:
+            labels = items.keys()
+            items = items.values()
 
         if keymap != KeyMap.Integers and (len(items) > len(keymap)):
             print(f"--Number of items exceeds keymap length, "
@@ -29,12 +35,17 @@ class Repple:
             keymap = count(start=1)
         mapped_keys = list(islice(keymap, len(items)))
         items_map = {}
+        labels_map = {}
         for i,v in enumerate(items):
             items_map[str(mapped_keys[i])] = v
+            if labels is not None:
+                labels_map[str(mapped_keys[i])] = labels[i]
+            else:
+                labels_map[str(mapped_keys[i])] = v
 
         while True:
             try:
-                for k,v in items_map.items():
+                for k,v in labels_map.items():
                     print(f"\t{k}: {v}")
                 line = input(select_str)
                 args = line.split()
