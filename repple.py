@@ -6,6 +6,7 @@ from enum import Enum
 
 class Repple_BreakException(Exception): pass
 class Repple_ContinueException(Exception): pass
+class Repple_NotUnaryException(Exception): pass
 
 class KeyMap:
     Integers = 1
@@ -83,8 +84,16 @@ class Repple:
             "param_count": fn_param_count,
             "min_params": min_params,
             "variadic": variadic_positional,
-            "desc": desc}
+            "desc": desc,
+            "accept_str": False}
         return index
+
+    # Add a unary function that accepts an arbitrary string (including whitespace)
+    def add_string_func(self, index : str, value, desc : str = ""):
+        self[index] = (value, desc)
+        assert self.command_map[index]['param_count'] == 1
+        # Just toggles a flag; handling is in main()
+        self.command_map[index]['accept_str'] = True
 
     def default_help(self):
         for k,v in self.command_map.items():
@@ -104,7 +113,7 @@ class Repple:
     def arg_eval(self, x):
         try:
             return ast.literal_eval(x)
-        except (ValueError):
+        except (SyntaxError,ValueError):
             return x
 
     def main(self, **kwargs):
@@ -121,6 +130,9 @@ class Repple:
                     nullary = self.command_map[cmd]['nullary']
                     if nullary:
                         self.command_map[cmd]['func']()
+                    elif self.command_map[cmd]['accept_str']:
+                        residual_str = line[len(cmd):].strip()
+                        self.command_map[cmd]['func'](residual_str)
                     else:
                         exp_param_count = self.command_map[cmd]['param_count']
                         min_params = self.command_map[cmd]['min_params']

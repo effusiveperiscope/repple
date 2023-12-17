@@ -1,5 +1,8 @@
 # Repple
 Quick and dirty opinionated fdisk-style REPLs
+* Whitespace-separated command and arguments
+* Except unary string functions
+* Selector prompt
 ```python
 from repple import Repple
 r = Repple()
@@ -40,4 +43,17 @@ Command: a
         3: c
 Select your items: 1 3
 ['a', 'c']
+```
+
+## Unary string function
+```python
+from repple import Repple
+r = Repple()
+r.add_string_func('p', lambda x: print(x))
+r.main()
+
+```
+```
+Command: p Hello world!
+Hello world!
 ```
