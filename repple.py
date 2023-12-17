@@ -24,8 +24,8 @@ class Repple:
         labels = None
 
         if type(items) == dict:
-            labels = items.keys()
-            items = items.values()
+            labels = list(items.keys())
+            items = list(items.values())
 
         if keymap != KeyMap.Integers and (len(items) > len(keymap)):
             print(f"--Number of items exceeds keymap length, "
