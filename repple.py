@@ -17,7 +17,8 @@ class Repple:
     def selector(items : list,
         keymap = KeyMap.Integers,
         select_str = "Select your items: ",
-        validator = None):
+        validator = None,
+        is_unary = False):
 
         if keymap != KeyMap.Integers and (len(items) > len(keymap)):
             print(f"--Number of items exceeds keymap length, "
@@ -26,8 +27,6 @@ class Repple:
         if keymap == KeyMap.Integers:
             keymap = count(start=1)
         mapped_keys = list(islice(keymap, len(items)))
-        print(keymap)
-        print(mapped_keys)
         items_map = {}
         for i,v in enumerate(items):
             items_map[str(mapped_keys[i])] = v
@@ -39,6 +38,9 @@ class Repple:
                 line = input(select_str)
                 args = line.split()
                 ret = []
+                if is_unary and len(args) > 1:
+                    print("--Only one argument expected")
+                    continue
                 for a in args:
                     if not a in items_map:
                         raise Repple_ContinueException
